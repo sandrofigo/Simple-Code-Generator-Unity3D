@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using SimpleCodeGenerator.Editor;
 using UnityEditor;
-using UnityEngine;
 
 namespace Samples.Editor
 {
@@ -10,7 +10,11 @@ namespace Samples.Editor
         [CodeGenerationMethod]
         public static void GenerateSomeCode()
         {
-            Debug.Log("Hello World!");
+            var values = new List<StringDictionaryItem>
+            {
+                new("Hello", "World", "Hello World!")
+            };
+            CodeGenerator.GenerateStringDictionary(values, "MyNamespace", "MyClass", "Samples/Generated");
         }
     }
 }

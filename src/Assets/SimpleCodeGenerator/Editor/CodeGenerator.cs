@@ -1,7 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using UnityEditor;
+using UnityEngine;
 
 namespace SimpleCodeGenerator.Editor
 {
@@ -30,8 +34,73 @@ namespace SimpleCodeGenerator.Editor
 
 #if SF_SIMPLE_CODE_GENERATOR_DEBUG
             stopwatch.Stop();
-            UnityEngine.Debug.Log($"Code generation took {stopwatch.Elapsed.TotalSeconds:0.00}s");
+            Debug.Log($"Code generation took {stopwatch.Elapsed.TotalSeconds:0.00}s");
 #endif
+        }
+
+        public static void GenerateStringDictionary(IEnumerable<StringDictionaryItem> values, string namespaceName, string className, string outputDirectory)
+        {
+            var valueArray = values as StringDictionaryItem[] ?? values.ToArray();
+
+            if (!valueArray.Any())
+            {
+                Debug.LogWarning($"Skipped code generation for '{namespaceName}.{className}', because no values for the dictionary were provided");
+                return;
+            }
+
+            Template template = FindTemplate("StringDictionary");
+
+            string result = template.Render(new
+            {
+                templateFile = GetPathToTemplate("StringDictionary"),
+                @namespace = namespaceName,
+                @class = className,
+                values = valueArray,
+                count = valueArray.Length
+            });
+
+            AbsolutePath outputPath = (AbsolutePath)Application.dataPath / outputDirectory / $"{className}.generated.cs";
+
+            if (!FileHasSameContent(outputPath, result))
+                WriteTextToAsset(result, outputPath);
+        }
+
+        private static void WriteTextToAsset(string contents, string filePath)
+        {
+            try
+            {
+                string path = Path.Combine(Application.dataPath, filePath);
+                Directory.CreateDirectory(Path.GetDirectoryName(path) ?? throw new ArgumentException("The provided file path is invalid!", nameof(filePath)));
+                File.WriteAllText(path, contents);
+
+                AssetDatabase.Refresh();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"An error occurred while writing a file: {e}");
+            }
+        }
+
+        private static bool FileHasSameContent(string filePath, string contentToCompare)
+        {
+            return File.Exists(filePath) && File.ReadAllText(filePath) == contentToCompare;
+        }
+
+        private static AbsolutePath GetPathToBuiltInTemplates([CallerFilePath] string callerFilePath = null)
+        {
+            var pathToCurrentDirectory = (AbsolutePath)Path.GetDirectoryName(callerFilePath);
+
+            return pathToCurrentDirectory / "Templates";
+        }
+
+        private static AbsolutePath GetPathToTemplate(string templateName)
+        {
+            return GetPathToBuiltInTemplates() / $"{templateName}.txt";
+        }
+
+        private static Template FindTemplate(string templateName)
+        {
+            return Template.ParseFromFile(GetPathToTemplate(templateName));
         }
     }
 }
