@@ -10,6 +10,11 @@ namespace SimpleCodeGenerator.Editor
         [MenuItem("Code Generation/Generate All", false, 0)]
         public static void GenerateAll()
         {
+#if SF_SIMPLE_CODE_GENERATOR_DEBUG
+            var stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+#endif
+
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
             var methods = assemblies
@@ -22,6 +27,11 @@ namespace SimpleCodeGenerator.Editor
             {
                 methodInfo.Invoke(null, null);
             }
+
+#if SF_SIMPLE_CODE_GENERATOR_DEBUG
+            stopwatch.Stop();
+            UnityEngine.Debug.Log($"Code generation took {stopwatch.Elapsed.TotalSeconds:0.00}s");
+#endif
         }
     }
 }
