@@ -19,7 +19,7 @@ namespace SimpleCodeGenerator.Editor
 
             var methods = assemblies
                 .SelectMany(a => a.GetTypes())
-                .SelectMany(t => t.GetMethods())
+                .SelectMany(t => t.GetMethods(BindingFlags.Static))
                 .Where(m => Attribute.GetCustomAttribute(m, typeof(CodeGenerationMethod)) != null)
                 .ToArray();
 
