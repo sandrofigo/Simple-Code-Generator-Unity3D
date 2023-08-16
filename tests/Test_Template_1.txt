@@ -1,0 +1,5 @@
+// Test Template {{ TemplateNumber }}
+
+{{ for number in SomeNumbers }}
+// {{ number }}
+{{ end }}

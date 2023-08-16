@@ -490,3 +490,5 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/csharp,rider,dotnetcore
 
 .idea/.idea.tests.dir/.idea/discord.xml
+
+*.received.*
