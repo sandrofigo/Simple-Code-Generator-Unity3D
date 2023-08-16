@@ -1,0 +1,4 @@
+{
+  "$schema": "./build.schema.json",
+  "UnitTestProject": "./tests/tests.csproj"
+}

@@ -1,0 +1,8 @@
+
+.nuke/temp/
+
+build/.idea/.idea.build.dir/.idea/discord.xml
+
+build/bin/
+
+build/obj/
