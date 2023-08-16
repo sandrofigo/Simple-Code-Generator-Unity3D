@@ -68,6 +68,34 @@ namespace SimpleCodeGenerator.Editor
             RenderTemplateToFile(template, data, outputAssetPath);
         }
 
+        public static void GenerateEnum(IEnumerable<string> values, string namespaceName, string enumName, string outputAssetPath)
+        {
+            string[] valueArray = values as string[] ?? values.ToArray();
+
+            if (!valueArray.Any())
+            {
+                Debug.LogWarning($"Skipped code generation for '{namespaceName}.{enumName}', because no values for the enum were provided");
+                return;
+            }
+
+            for (int i = 0; i < valueArray.Length; i++)
+            {
+                valueArray[i] = SanitizeStringForVariableName(valueArray[i]);
+            }
+
+            Template template = FindBuiltInTemplate("Enum");
+
+            var data = new
+            {
+                TemplateFile = Path.GetFileNameWithoutExtension(GetRelativePathToBuiltInTemplate("Enum")),
+                Namespace = namespaceName,
+                Enum = enumName,
+                Values = valueArray
+            };
+
+            RenderTemplateToFile(template, data, outputAssetPath);
+        }
+
         public static void GenerateFromTemplate(string templateAssetPath, string outputAssetPath, object data)
         {
             if (TryFindTemplateInAssets(templateAssetPath, out Template template))

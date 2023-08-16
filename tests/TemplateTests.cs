@@ -106,16 +106,15 @@ public class TemplateTests
     [Fact]
     public Task Render_RenderBuiltInEnumTemplate_TemplateIsRenderedCorrectly()
     {
-        throw new NotImplementedException();
-
-        var values = new StringDictionaryItem[]
+        string[] values =
         {
-            new("Apple", "Fruit", "An apple is a fruit."),
-            new("Banana", "Fruit", "A banana is a fruit."),
-            new("Potato", "Vegetable", "A potato is a vegetable.")
+            "Hello",
+            "World",
+            "1Apple",
+            "2 Bananas"
         };
 
-        CodeGenerator.GenerateStringDictionary(values, "TestNamespace", "TestClass", "result.txt");
+        CodeGenerator.GenerateEnum(values, "TestNamespace", "TestEnum", "result.txt");
 
         string result = File.ReadAllText("result.txt");
 

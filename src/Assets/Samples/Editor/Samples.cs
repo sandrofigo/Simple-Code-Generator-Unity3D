@@ -18,6 +18,19 @@ namespace Samples.Editor
             };
             CodeGenerator.GenerateStringDictionary(values, "Generated", "StringDictionary", "Samples/Generated/StringDictionary.generated.cs");
         }
+        
+        [MenuItem("Code Generation/Generate Sample Enum")]
+        [CodeGenerationMethod]
+        public static void GenerateSampleEnum()
+        {
+            var values = new List<string>
+            {
+                "Hello",
+                "World",
+                "OtherValue"
+            };
+            CodeGenerator.GenerateEnum(values, "Generated", "Enum", "Samples/Generated/Enum.generated.cs");
+        }
 
         [MenuItem("Code Generation/Generate Template_1")]
         [CodeGenerationMethod]
