@@ -19,7 +19,8 @@ using static Nuke.Common.IO.PathConstruction;
 [GitHubActions("tests",
     GitHubActionsImage.UbuntuLatest,
     OnPushBranches = new[] { "main" },
-    InvokedTargets = new[] { nameof(Test) }
+    InvokedTargets = new[] { nameof(Test) },
+    PublishCondition = "always()"
 )]
 class Build : NukeBuild
 {
