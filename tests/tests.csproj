@@ -40,5 +40,12 @@
   <ItemGroup>
     <Folder Include="Verify\" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="..\src\Assets\SimpleCodeGenerator\Editor\Templates\*.txt">
+      <Link>Templates\%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>

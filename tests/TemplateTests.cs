@@ -7,7 +7,8 @@ namespace tests;
 public class TemplateTests
 {
     private const string TemplateFile1 = "Templates/Test_Template_1.txt";
-    private const string TemplateFile2 = "Templates/StringDictionary.txt";
+    private const string StringDictionaryTemplateFile = "Templates/StringDictionary.txt";
+    private const string EnumTemplateFile = "Templates/Enum.txt";
 
     [Fact]
     public void ParseFromFile_ParseValidTemplate_TemplateIsParsedWithoutExceptions()
@@ -60,11 +61,11 @@ public class TemplateTests
     [Fact]
     public Task Render_RenderValidTemplate2_TemplateIsRenderedCorrectly()
     {
-        Template template = Template.ParseFromFile(TemplateFile2);
+        Template template = Template.ParseFromFile(StringDictionaryTemplateFile);
 
         var data = new
         {
-            TemplateFile = TemplateFile2,
+            TemplateFile = StringDictionaryTemplateFile,
             Namespace = "TestNamespace",
             Class = "TestClass",
             Values = new StringDictionaryItem[]
@@ -77,6 +78,46 @@ public class TemplateTests
         };
 
         string result = template.Render(data);
+
+        var settings = new VerifySettings();
+        settings.UseDirectory("Verify");
+        return Verify(result, settings);
+    }
+
+    [Fact]
+    public Task Render_RenderBuiltInStringDictionaryTemplate_TemplateIsRenderedCorrectly()
+    {
+        var values = new StringDictionaryItem[]
+        {
+            new("Apple", "Fruit", "An apple is a fruit."),
+            new("Banana", "Fruit", "A banana is a fruit."),
+            new("Potato", "Vegetable", "A potato is a vegetable.")
+        };
+
+        CodeGenerator.GenerateStringDictionary(values, "TestNamespace", "TestClass", "result.txt");
+
+        string result = File.ReadAllText("result.txt");
+
+        var settings = new VerifySettings();
+        settings.UseDirectory("Verify");
+        return Verify(result, settings);
+    }
+
+    [Fact]
+    public Task Render_RenderBuiltInEnumTemplate_TemplateIsRenderedCorrectly()
+    {
+        throw new NotImplementedException();
+
+        var values = new StringDictionaryItem[]
+        {
+            new("Apple", "Fruit", "An apple is a fruit."),
+            new("Banana", "Fruit", "A banana is a fruit."),
+            new("Potato", "Vegetable", "A potato is a vegetable.")
+        };
+
+        CodeGenerator.GenerateStringDictionary(values, "TestNamespace", "TestClass", "result.txt");
+
+        string result = File.ReadAllText("result.txt");
 
         var settings = new VerifySettings();
         settings.UseDirectory("Verify");

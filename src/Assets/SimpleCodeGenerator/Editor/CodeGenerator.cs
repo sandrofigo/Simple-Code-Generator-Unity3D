@@ -58,7 +58,7 @@ namespace SimpleCodeGenerator.Editor
 
             var data = new
             {
-                TemplateFile = GetRelativePathToBuiltInTemplate("StringDictionary"),
+                TemplateFile = Path.GetFileNameWithoutExtension(GetRelativePathToBuiltInTemplate("StringDictionary")),
                 Namespace = namespaceName,
                 Class = className,
                 Values = valueArray,
