@@ -39,7 +39,7 @@ namespace SimpleCodeGenerator.Editor
 #endif
         }
 
-        public static void GenerateStringDictionary(IEnumerable<StringDictionaryItem> values, string namespaceName, string className, string outputDirectory)
+        public static void GenerateStringDictionary(IEnumerable<StringDictionaryItem> values, string namespaceName, string className, string outputAssetPath)
         {
             var valueArray = values as StringDictionaryItem[] ?? values.ToArray();
 
@@ -49,32 +49,43 @@ namespace SimpleCodeGenerator.Editor
                 return;
             }
 
-            Template template = FindTemplate("StringDictionary");
+            Template template = FindBuiltInTemplate("StringDictionary");
 
-            string result = template.Render(new
+            var data = new
             {
-                templateFile = GetRelativePathToTemplate("StringDictionary"),
-                @namespace = namespaceName,
-                @class = className,
-                values = valueArray,
-                count = valueArray.Length,
-                nestedTest = new
-                {
-                    innerString = "test string",
-                    innerTest = new
-                    {
-                        mostInnerString = "hello!"
-                    }
-                }
-            });
+                TemplateFile = GetRelativePathToBuiltInTemplate("StringDictionary"),
+                Namespace = namespaceName,
+                Class = className,
+                Values = valueArray,
+                Count = valueArray.Length
+            };
 
-            AbsolutePath outputPath = (AbsolutePath)Application.dataPath / outputDirectory / $"{className}.generated.cs";
-
-            if (!FileHasSameContent(outputPath, result))
-                WriteTextToAsset(result, outputPath);
+            RenderTemplateToFile(template, data, outputAssetPath);
         }
 
-        private static void WriteTextToAsset(string contents, string filePath)
+        public static void GenerateFromTemplate(string templateAssetPath, string outputAssetPath, object data)
+        {
+            if (TryFindTemplateInAssets(templateAssetPath, out Template template))
+            {
+                RenderTemplateToFile(template, data, outputAssetPath);
+            }
+            else
+            {
+                Debug.LogWarning($"Could not find template '{templateAssetPath}' in assets.");
+            }
+        }
+
+        private static void RenderTemplateToFile(Template template, object data, string toAssetPath)
+        {
+            string result = template.Render(data);
+
+            AbsolutePath outputPath = (AbsolutePath)Application.dataPath / toAssetPath;
+
+            if (!FileHasSameContent(outputPath, result))
+                WriteTextToFile(result, outputPath);
+        }
+
+        private static void WriteTextToFile(string contents, string filePath)
         {
             try
             {
@@ -102,22 +113,40 @@ namespace SimpleCodeGenerator.Editor
             return pathToCurrentDirectory / "Templates";
         }
 
-        private static AbsolutePath GetAbsolutePathToTemplate(string templateName)
+        private static AbsolutePath GetAbsolutePathToBuiltInTemplate(string templateName)
         {
             return GetPathToBuiltInTemplates() / $"{templateName}.txt";
         }
-        
-        private static string GetRelativePathToTemplate(string templateName)
+
+        private static string GetRelativePathToBuiltInTemplate(string templateName)
         {
-            return GetAbsolutePathToTemplate(templateName) - Application.dataPath;
+            return GetAbsolutePathToBuiltInTemplate(templateName) - Application.dataPath;
         }
 
-        private static Template FindTemplate(string templateName)
+        private static Template FindBuiltInTemplate(string templateName)
         {
-            return Template.ParseFromFile(GetAbsolutePathToTemplate(templateName));
+            return Template.ParseFromFile(GetAbsolutePathToBuiltInTemplate(templateName));
         }
 
-        private static string SanitizeStringForVariableName(string input)
+        public static bool TryFindTemplateInAssets(string templateAssetPath, out Template template)
+        {
+            if (!templateAssetPath.StartsWith("Assets/"))
+                templateAssetPath = $"Assets/{templateAssetPath}";
+
+            var textAsset = (TextAsset)AssetDatabase.LoadAssetAtPath(templateAssetPath, typeof(TextAsset));
+
+            if (textAsset == null)
+            {
+                template = null;
+                return false;
+            }
+
+            template = Template.ParseFromFile(AssetDatabase.GetAssetPath(textAsset));
+
+            return true;
+        }
+
+        public static string SanitizeStringForVariableName(string input)
         {
             string variableName = Regex.Replace(input, "[^0-9A-Za-z_]", string.Empty);
 
@@ -129,7 +158,7 @@ namespace SimpleCodeGenerator.Editor
             return variableName;
         }
 
-        private static string EscapeSummaryText(string text)
+        public static string EscapeSummaryText(string text)
         {
             return $"<![CDATA[{text}]]>";
         }

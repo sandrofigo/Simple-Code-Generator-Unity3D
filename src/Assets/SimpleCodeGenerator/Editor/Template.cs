@@ -11,7 +11,7 @@ namespace SimpleCodeGenerator.Editor
             this.content = content;
         }
 
-        public static Template ParseFromFile(AbsolutePath path)
+        public static Template ParseFromFile(string path)
         {
             return new Template(File.ReadAllLines(path));
         }

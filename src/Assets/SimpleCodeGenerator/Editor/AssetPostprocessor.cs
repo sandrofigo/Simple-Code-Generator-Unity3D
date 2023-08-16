@@ -8,9 +8,12 @@ namespace SimpleCodeGenerator.Editor
         {
             var allChangedAssets = importedAssets.Concat(deletedAssets).Concat(movedAssets).Concat(movedAssets);
 
-            if (allChangedAssets.Any(s =>
-                    s.Contains(".cs") ||
-                    s.Contains(".json")))
+            bool relevantFilesChanged = allChangedAssets.Any(s =>
+                s.Contains(".cs") ||
+                s.Contains(".txt") ||
+                s.Contains(".json"));
+
+            if (relevantFilesChanged)
                 CodeGenerator.GenerateAll();
         }
     }

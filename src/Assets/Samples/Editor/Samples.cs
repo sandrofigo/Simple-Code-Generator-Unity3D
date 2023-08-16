@@ -16,7 +16,24 @@ namespace Samples.Editor
                 new("Hello2", "World2", "Hello World!2"),
                 new("Hello3", "World3", "Hello World!3"),
             };
-            CodeGenerator.GenerateStringDictionary(values, "MyNamespace", "MyClass", "Samples/Generated");
+            CodeGenerator.GenerateStringDictionary(values, "MyNamespace", "MyClass", "Samples/Generated/MyClass.generated.cs");
+        }
+
+        [MenuItem("Code Generation/Generate Template_1")]
+        [CodeGenerationMethod]
+        public static void GenerateTemplate1()
+        {
+            var data = new
+            {
+                Fox = new
+                {
+                    Color = "brown"
+                },
+                Activity = "jumps",
+                Values = new[] { "red", "green", "blue", "yellow", "purple" }
+            };
+
+            CodeGenerator.GenerateFromTemplate("Samples/Editor/Templates/Template_1.txt", "Samples/Generated/Template_1.generated.cs", data);
         }
     }
 }

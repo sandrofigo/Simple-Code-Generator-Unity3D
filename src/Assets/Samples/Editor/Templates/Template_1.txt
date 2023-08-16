@@ -1,0 +1,13 @@
+﻿// This is an example template. It demonstrates how to use the template syntax.
+
+// You can insert values by putting them into double curly braces:
+// 
+// The quick {{ Fox.Color }} fox {{ Activity }} over the lazy dog.
+
+// It is also possible to iterate over a collection:
+
+{{ for item in Values }}
+// This section is repeated {{ Values.Length }} times.
+// The quick {{ Fox.Color }} fox {{ Activity }} over the lazy {{ item }} dog.
+
+{{ end }}
