@@ -43,6 +43,8 @@ namespace SimpleCodeGenerator.Editor
         {
             var valueArray = values as StringDictionaryItem[] ?? values.ToArray();
 
+            // TODO-SFIGO: sanitize value names and escape summary
+
             if (!valueArray.Any())
             {
                 Debug.LogWarning($"Skipped code generation for '{namespaceName}.{className}', because no values for the dictionary were provided");
@@ -106,11 +108,9 @@ namespace SimpleCodeGenerator.Editor
             return File.Exists(filePath) && File.ReadAllText(filePath) == contentToCompare;
         }
 
-        private static AbsolutePath GetPathToBuiltInTemplates([CallerFilePath] string callerFilePath = null)
+        private static AbsolutePath GetPathToBuiltInTemplates()
         {
-            var pathToCurrentDirectory = (AbsolutePath)Path.GetDirectoryName(callerFilePath);
-
-            return pathToCurrentDirectory / "Templates";
+            return CurrentFile.Directory() / "Templates";
         }
 
         private static AbsolutePath GetAbsolutePathToBuiltInTemplate(string templateName)
