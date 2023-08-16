@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
@@ -42,7 +41,7 @@ namespace SimpleCodeGenerator.Editor
         public static void GenerateStringDictionary(IEnumerable<StringDictionaryItem> values, string namespaceName, string className, string outputAssetPath)
         {
             var valueArray = values as StringDictionaryItem[] ?? values.ToArray();
-            
+
             if (!valueArray.Any())
             {
                 Debug.LogWarning($"Skipped code generation for '{namespaceName}.{className}', because no values for the dictionary were provided");

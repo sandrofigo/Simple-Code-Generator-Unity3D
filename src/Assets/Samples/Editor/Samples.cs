@@ -6,17 +6,17 @@ namespace Samples.Editor
 {
     public static class Samples
     {
-        [MenuItem("Code Generation/Generate Some Code")]
+        [MenuItem("Code Generation/Generate Sample String Dictionary")]
         [CodeGenerationMethod]
-        public static void GenerateSomeCode()
+        public static void GenerateSampleStringDictionary()
         {
             var values = new List<StringDictionaryItem>
             {
                 new("Hello", "World", "Hello World!"),
-                new("Hello2", "World2", "Hello World!2"),
-                new("Hello3", "World3", "Hello World!3"),
+                new("Text", "Hello World!", "A short text."),
+                new("Some Key", "Some Value", "A summary.")
             };
-            CodeGenerator.GenerateStringDictionary(values, "MyNamespace", "MyClass", "Samples/Generated/MyClass.generated.cs");
+            CodeGenerator.GenerateStringDictionary(values, "Generated", "StringDictionary", "Samples/Generated/StringDictionary.generated.cs");
         }
 
         [MenuItem("Code Generation/Generate Template_1")]

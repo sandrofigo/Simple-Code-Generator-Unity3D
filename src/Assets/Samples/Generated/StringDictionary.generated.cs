@@ -7,30 +7,30 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace MyNamespace
+namespace Generated
 {
-    public static class MyClass
+    public static class StringDictionary
     {
         /// <summary>
         /// <![CDATA[Hello World!]]>
         /// </summary>
         public const string @Hello = "World";
         /// <summary>
-        /// <![CDATA[Hello World!2]]>
+        /// <![CDATA[A short text.]]>
         /// </summary>
-        public const string @Hello2 = "World2";
+        public const string @Text = "Hello World!";
         /// <summary>
-        /// <![CDATA[Hello World!3]]>
+        /// <![CDATA[A summary.]]>
         /// </summary>
-        public const string @Hello3 = "World3";
+        public const string @SomeKey = "Some Value";
         
         public const int Count = 3;
 
         private static readonly Dictionary<string, string> values = new Dictionary<string, string>
         {
             {"Hello", @Hello},
-            {"Hello2", @Hello2},
-            {"Hello3", @Hello3},
+            {"Text", @Text},
+            {"SomeKey", @SomeKey},
         };
 
         public static IEnumerable<KeyValuePair<string, string>> _All = values;
