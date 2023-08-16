@@ -1,7 +1,7 @@
 // This is an example template. It demonstrates how to use the template syntax.
 
 // You can insert the value of a property by putting it into double curly braces:
-// 
+
 // The quick brown fox jumps over the lazy dog.
 
 // It is also possible to iterate over a collection:
