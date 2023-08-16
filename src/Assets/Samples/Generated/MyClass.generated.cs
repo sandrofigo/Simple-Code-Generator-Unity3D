@@ -12,15 +12,15 @@ namespace MyNamespace
     public static class MyClass
     {
         /// <summary>
-        /// Hello World!
+        /// <![CDATA[Hello World!]]>
         /// </summary>
         public const string @Hello = "World";
         /// <summary>
-        /// Hello World!2
+        /// <![CDATA[Hello World!2]]>
         /// </summary>
         public const string @Hello2 = "World2";
         /// <summary>
-        /// Hello World!3
+        /// <![CDATA[Hello World!3]]>
         /// </summary>
         public const string @Hello3 = "World3";
         

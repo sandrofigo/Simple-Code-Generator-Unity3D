@@ -42,13 +42,17 @@ namespace SimpleCodeGenerator.Editor
         public static void GenerateStringDictionary(IEnumerable<StringDictionaryItem> values, string namespaceName, string className, string outputAssetPath)
         {
             var valueArray = values as StringDictionaryItem[] ?? values.ToArray();
-
-            // TODO-SFIGO: sanitize value names and escape summary
-
+            
             if (!valueArray.Any())
             {
                 Debug.LogWarning($"Skipped code generation for '{namespaceName}.{className}', because no values for the dictionary were provided");
                 return;
+            }
+
+            for (int i = 0; i < valueArray.Length; i++)
+            {
+                valueArray[i].Key = SanitizeStringForVariableName(valueArray[i].Key);
+                valueArray[i].Summary = EscapeSummaryText(valueArray[i].Summary);
             }
 
             Template template = FindBuiltInTemplate("StringDictionary");
