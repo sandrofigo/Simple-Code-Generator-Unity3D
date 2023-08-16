@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -52,11 +53,19 @@ namespace SimpleCodeGenerator.Editor
 
             string result = template.Render(new
             {
-                templateFile = GetPathToTemplate("StringDictionary"),
+                templateFile = GetRelativePathToTemplate("StringDictionary"),
                 @namespace = namespaceName,
                 @class = className,
                 values = valueArray,
-                count = valueArray.Length
+                count = valueArray.Length,
+                nestedTest = new
+                {
+                    innerString = "test string",
+                    innerTest = new
+                    {
+                        mostInnerString = "hello!"
+                    }
+                }
             });
 
             AbsolutePath outputPath = (AbsolutePath)Application.dataPath / outputDirectory / $"{className}.generated.cs";
@@ -93,14 +102,36 @@ namespace SimpleCodeGenerator.Editor
             return pathToCurrentDirectory / "Templates";
         }
 
-        private static AbsolutePath GetPathToTemplate(string templateName)
+        private static AbsolutePath GetAbsolutePathToTemplate(string templateName)
         {
             return GetPathToBuiltInTemplates() / $"{templateName}.txt";
+        }
+        
+        private static string GetRelativePathToTemplate(string templateName)
+        {
+            return GetAbsolutePathToTemplate(templateName) - Application.dataPath;
         }
 
         private static Template FindTemplate(string templateName)
         {
-            return Template.ParseFromFile(GetPathToTemplate(templateName));
+            return Template.ParseFromFile(GetAbsolutePathToTemplate(templateName));
+        }
+
+        private static string SanitizeStringForVariableName(string input)
+        {
+            string variableName = Regex.Replace(input, "[^0-9A-Za-z_]", string.Empty);
+
+            if (int.TryParse(variableName[0].ToString(), out int _))
+            {
+                variableName = $"_{variableName}";
+            }
+
+            return variableName;
+        }
+
+        private static string EscapeSummaryText(string text)
+        {
+            return $"<![CDATA[{text}]]>";
         }
     }
 }

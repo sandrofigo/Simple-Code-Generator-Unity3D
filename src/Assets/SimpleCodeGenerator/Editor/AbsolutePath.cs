@@ -28,6 +28,11 @@ namespace SimpleCodeGenerator.Editor
         {
             return a.path.StartsWith(b.path) ? a.path[b.path.Length..].TrimStart('/') : a;
         }
+        
+        public static string operator -(AbsolutePath a, string b)
+        {
+            return a.path.StartsWith(b) ? a.path[b.Length..].TrimStart('/') : a;
+        }
 
         private static string Sanitize(string path)
         {
