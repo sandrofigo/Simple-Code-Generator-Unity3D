@@ -106,6 +106,9 @@ namespace SimpleCodeGenerator.Editor
 
         private static string RerootPropertyPath(string currentPath, string newRootPath)
         {
+            if (currentPath == newRootPath)
+                return "";
+
             if (!newRootPath.EndsWith("."))
                 newRootPath += ".";
 
@@ -117,6 +120,12 @@ namespace SimpleCodeGenerator.Editor
 
         private static bool TryGetPropertyValue(object obj, string propertyPath, out object propertyValue)
         {
+            if (string.IsNullOrWhiteSpace(propertyPath))
+            {
+                propertyValue = obj;
+                return true;
+            }
+
             string[] properties = propertyPath.Split('.');
             object currentObject = obj;
 

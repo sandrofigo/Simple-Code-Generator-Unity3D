@@ -1,6 +1,6 @@
 ﻿// This is an example template. It demonstrates how to use the template syntax.
 
-// You can insert values by putting them into double curly braces:
+// You can insert the value of a property by putting it into double curly braces:
 // 
 // The quick {{ Fox.Color }} fox {{ Activity }} over the lazy dog.
 

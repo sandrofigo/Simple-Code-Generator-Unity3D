@@ -30,7 +30,7 @@ namespace Samples.Editor
                     Color = "brown"
                 },
                 Activity = "jumps",
-                Values = new[] { "red", "green", "blue", "yellow", "purple" }
+                Values = new[] { "gray", "brown", "black", "white", "purple" }
             };
 
             CodeGenerator.GenerateFromTemplate("Samples/Editor/Templates/Template_1.txt", "Samples/Generated/Template_1.generated.cs", data);
