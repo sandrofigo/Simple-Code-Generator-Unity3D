@@ -38,20 +38,35 @@ namespace UnityEngine
 
         public static Object LoadAssetAtPath(string s, Type t)
         {
-            return new Object();
+            if (s.StartsWith("Assets/"))
+                s = s.Remove(0, "Assets/".Length);
+
+            var mockAsset = Activator.CreateInstance(t) as IMockAsset;
+
+            mockAsset.Path = s;
+
+            return (Object)mockAsset;
         }
 
         public static string GetAssetPath(Object o)
         {
-            return "";
+            var mockAsset = o as IMockAsset;
+
+            return mockAsset.Path;
         }
     }
 
-    public class TextAsset : Object
+    public class TextAsset : Object, IMockAsset
     {
+        public string Path { get; set; }
     }
 
     public class Object
     {
+    }
+
+    public interface IMockAsset
+    {
+        public string Path { get; set; }
     }
 }

@@ -45,6 +45,44 @@ public class CodeGeneratorTests
         return Verify(result, settings);
     }
 
+    [Fact]
+    public Task GenerateFromTemplate_RenderFromValidTemplatePath_TemplateIsRenderedCorrectly()
+    {
+        var data = new
+        {
+            TemplateNumber = 1,
+            SomeNumbers = new[] { 1, 3, 4, 2, 5 }
+        };
+
+        CodeGenerator.GenerateFromTemplate("Templates/Test_Template_1.txt", "result.txt", data);
+
+        string result = File.ReadAllText("result.txt");
+
+        var settings = new VerifySettings();
+        settings.UseDirectory("Verify");
+        return Verify(result, settings);
+    }
+
+    [Fact]
+    public Task GenerateFromTemplate_RenderFromValidTemplateInstance_TemplateIsRenderedCorrectly()
+    {
+        var data = new
+        {
+            TemplateNumber = 1,
+            SomeNumbers = new[] { 1, 3, 4, 2, 5 }
+        };
+
+        Template.TryFindTemplateInAssets("Templates/Test_Template_1.txt", out Template t);
+
+        CodeGenerator.GenerateFromTemplate(t, "result.txt", data);
+
+        string result = File.ReadAllText("result.txt");
+
+        var settings = new VerifySettings();
+        settings.UseDirectory("Verify");
+        return Verify(result, settings);
+    }
+
     [Theory]
     [InlineData("test", "test")]
     [InlineData("test123", "test123")]

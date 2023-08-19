@@ -54,7 +54,7 @@ namespace SimpleCodeGenerator.Editor
                 valueArray[i].Summary = EscapeSummaryText(valueArray[i].Summary);
             }
 
-            Template template = FindBuiltInTemplate("StringDictionary");
+            var template = Template.FindBuiltInTemplate("StringDictionary");
 
             var data = new
             {
@@ -83,7 +83,7 @@ namespace SimpleCodeGenerator.Editor
                 valueArray[i] = SanitizeStringForVariableName(valueArray[i]);
             }
 
-            Template template = FindBuiltInTemplate("Enum");
+            var template = Template.FindBuiltInTemplate("Enum");
 
             var data = new
             {
@@ -96,11 +96,16 @@ namespace SimpleCodeGenerator.Editor
             RenderTemplateToFile(template, data, outputAssetPath);
         }
 
+        public static void GenerateFromTemplate(Template template, string outputAssetPath, object data)
+        {
+            RenderTemplateToFile(template, data, outputAssetPath);
+        }
+
         public static void GenerateFromTemplate(string templateAssetPath, string outputAssetPath, object data)
         {
-            if (TryFindTemplateInAssets(templateAssetPath, out Template template))
+            if (Template.TryFindTemplateInAssets(templateAssetPath, out Template template))
             {
-                RenderTemplateToFile(template, data, outputAssetPath);
+                GenerateFromTemplate(template, outputAssetPath, data);
             }
             else
             {
@@ -139,49 +144,16 @@ namespace SimpleCodeGenerator.Editor
             return File.Exists(filePath) && File.ReadAllText(filePath) == contentToCompare;
         }
 
-        private static AbsolutePath GetPathToBuiltInTemplates()
-        {
-            return CurrentFile.Directory() / "Templates";
-        }
-
-        private static AbsolutePath GetAbsolutePathToBuiltInTemplate(string templateName)
-        {
-            return GetPathToBuiltInTemplates() / $"{templateName}.txt";
-        }
-
         private static string GetRelativePathToBuiltInTemplate(string templateName)
         {
-            return GetAbsolutePathToBuiltInTemplate(templateName) - Application.dataPath;
-        }
-
-        private static Template FindBuiltInTemplate(string templateName)
-        {
-            return Template.ParseFromFile(GetAbsolutePathToBuiltInTemplate(templateName));
-        }
-
-        public static bool TryFindTemplateInAssets(string templateAssetPath, out Template template)
-        {
-            if (!templateAssetPath.StartsWith("Assets/"))
-                templateAssetPath = $"Assets/{templateAssetPath}";
-
-            var textAsset = (TextAsset)AssetDatabase.LoadAssetAtPath(templateAssetPath, typeof(TextAsset));
-
-            if (textAsset == null)
-            {
-                template = null;
-                return false;
-            }
-
-            template = Template.ParseFromFile(AssetDatabase.GetAssetPath(textAsset));
-
-            return true;
+            return Template.GetAbsolutePathToBuiltInTemplate(templateName) - Application.dataPath;
         }
 
         public static string SanitizeStringForVariableName(string input)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return "";
-            
+
             string variableName = Regex.Replace(input, "[^0-9A-Za-z_]", string.Empty);
 
             if (int.TryParse(variableName[0].ToString(), out int _))
