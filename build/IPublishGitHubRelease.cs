@@ -9,7 +9,6 @@ interface IPublishGitHubRelease : INukeBuild
 
     Target PublishGitHubRelease => _ => _
         .OnlyWhenStatic(() => GitRepository.CurrentCommitHasVersionTag())
-        .DependsOn<ICheckForUnityMetaFiles>()
         .DependsOn<ICheckChangelogVersionMatchesUnityPackageVersion>()
         .DependsOn<ICheckChangelogVersionMatchesGitTagVersion>()
         .Executes(() =>

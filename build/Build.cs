@@ -80,7 +80,7 @@ class Build : NukeBuild, ICheckForUnityMetaFiles, ICheckChangelogVersionMatchesU
         });
 
     Target Publish => _ => _
-        .OnlyWhenStatic(() => GitRepository.CurrentCommitHasVersionTag())
         .DependsOn(Test)
+        .DependsOn<ICheckForUnityMetaFiles>()
         .Triggers<IPublishGitHubRelease>();
 }
