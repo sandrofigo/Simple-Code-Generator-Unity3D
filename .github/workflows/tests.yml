@@ -34,8 +34,8 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
-      - name: 'Run: Test'
-        run: ./build.cmd Test
+      - name: 'Run: Publish'
+        run: ./build.cmd Publish
       - name: 'Publish: TestResults'
         uses: actions/upload-artifact@v3
         if: always()

@@ -1,10 +1,13 @@
 using System;
 using System.Linq;
+using NuGet.Versioning;
 using Nuke.Common;
+using Nuke.Common.ChangeLog;
 using Nuke.Common.CI;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.CI.GitHubActions.Configuration;
 using Nuke.Common.Execution;
+using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
@@ -19,18 +22,21 @@ using static Nuke.Common.IO.PathConstruction;
 [GitHubActions("tests",
     GitHubActionsImage.UbuntuLatest,
     OnPushBranches = new[] { "main" },
-    InvokedTargets = new[] { nameof(Test) },
+    InvokedTargets = new[] { nameof(Publish) },
     PublishCondition = "always()"
 )]
-class Build : NukeBuild
+class Build : NukeBuild, ICheckForUnityMetaFiles, ICheckChangelogVersionMatchesUnityPackageVersion, ICheckChangelogVersionMatchesGitTagVersion, IPublishGitHubRelease
 {
-    public static int Main() => Execute<Build>(x => x.Test);
+    public static int Main() => Execute<Build>(x => x.Publish);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
     [Solution]
     readonly Solution UnitTestProject;
+
+    [GitRepository]
+    readonly GitRepository GitRepository;
 
     Target Clean => _ => _
         .Executes(() =>
@@ -72,4 +78,9 @@ class Build : NukeBuild
                 .EnableNoBuild()
             );
         });
+
+    Target Publish => _ => _
+        .OnlyWhenStatic(() => GitRepository.CurrentCommitHasVersionTag())
+        .DependsOn(Test)
+        .Triggers<IPublishGitHubRelease>();
 }

@@ -6,6 +6,18 @@
     "build": {
       "type": "object",
       "properties": {
+        "CheckForUnityMetaFilesExcludeDirectories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "CheckForUnityMetaFilesIncludeDirectories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "Configuration": {
           "type": "string",
           "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
@@ -72,8 +84,13 @@
           "items": {
             "type": "string",
             "enum": [
+              "CheckChangelogVersionMatchesGitTagVersion",
+              "CheckChangelogVersionMatchesUnityPackageVersion",
+              "CheckForUnityMetaFiles",
               "Clean",
               "Compile",
+              "Publish",
+              "PublishGitHubRelease",
               "Restore",
               "Test"
             ]
@@ -85,8 +102,13 @@
           "items": {
             "type": "string",
             "enum": [
+              "CheckChangelogVersionMatchesGitTagVersion",
+              "CheckChangelogVersionMatchesUnityPackageVersion",
+              "CheckForUnityMetaFiles",
               "Clean",
               "Compile",
+              "Publish",
+              "PublishGitHubRelease",
               "Restore",
               "Test"
             ]

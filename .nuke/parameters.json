@@ -1,4 +1,7 @@
 {
   "$schema": "./build.schema.json",
-  "UnitTestProject": "./tests/tests.csproj"
+  "UnitTestProject": "./tests/tests.csproj",
+  "CheckForUnityMetaFilesIncludeDirectories": [
+    "./src/Assets/SimpleCodeGenerator"
+  ]
 }
