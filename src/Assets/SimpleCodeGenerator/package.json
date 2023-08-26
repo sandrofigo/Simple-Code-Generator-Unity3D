@@ -1,0 +1,20 @@
+{
+  "name": "com.sandrofigo.simplecodegenerator",
+  "version": "1.0.0",
+  "displayName": "Simple Code Generator",
+  "description": "A library for generating source code from templates in Unity",
+  "documentationUrl": "https://github.com/sandrofigo/Simple-Code-Generator-Unity3D",
+  "changelogUrl": "https://github.com/sandrofigo/Simple-Code-Generator-Unity3D/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/sandrofigo/Simple-Code-Generator-Unity3D/blob/main/LICENSE",
+  "dependencies": {},
+  "keywords": [
+    "template",
+    "parser",
+    "generator",
+    "code-generator"
+  ],
+  "author": {
+    "name": "Sandro Figo",
+    "url": "https://sandrofigo.com"
+  }
+}
