@@ -3,5 +3,7 @@
   "UnitTestProject": "./tests/tests.csproj",
   "CheckForUnityMetaFilesIncludeDirectories": [
     "./src/Assets/SimpleCodeGenerator"
-  ]
+  ],
+  "ChangelogFile": "./CHANGELOG.md",
+  "UnityPackageFile": "./src/Assets/SimpleCodeGenerator/package.json"
 }

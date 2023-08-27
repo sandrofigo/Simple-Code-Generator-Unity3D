@@ -6,6 +6,9 @@
     "build": {
       "type": "object",
       "properties": {
+        "ChangelogFile": {
+          "type": "string"
+        },
         "CheckForUnityMetaFilesExcludeDirectories": {
           "type": "array",
           "items": {
@@ -84,15 +87,15 @@
           "items": {
             "type": "string",
             "enum": [
-              "CheckChangelogVersionMatchesGitTagVersion",
-              "CheckChangelogVersionMatchesUnityPackageVersion",
+              "ChangelogVersionMatchesGitTagVersion",
               "CheckForUnityMetaFiles",
               "Clean",
               "Compile",
               "Publish",
               "PublishGitHubRelease",
               "Restore",
-              "Test"
+              "Test",
+              "UnityPackageVersionMatchesGitTagVersion"
             ]
           }
         },
@@ -102,21 +105,24 @@
           "items": {
             "type": "string",
             "enum": [
-              "CheckChangelogVersionMatchesGitTagVersion",
-              "CheckChangelogVersionMatchesUnityPackageVersion",
+              "ChangelogVersionMatchesGitTagVersion",
               "CheckForUnityMetaFiles",
               "Clean",
               "Compile",
               "Publish",
               "PublishGitHubRelease",
               "Restore",
-              "Test"
+              "Test",
+              "UnityPackageVersionMatchesGitTagVersion"
             ]
           }
         },
         "UnitTestProject": {
           "type": "string",
           "description": "Path to a solution file that is automatically loaded"
+        },
+        "UnityPackageFile": {
+          "type": "string"
         },
         "Verbosity": {
           "type": "string",

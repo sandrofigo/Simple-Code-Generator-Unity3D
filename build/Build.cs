@@ -25,7 +25,7 @@ using static Nuke.Common.IO.PathConstruction;
     InvokedTargets = new[] { nameof(Publish) },
     PublishCondition = "always()"
 )]
-class Build : NukeBuild, ICheckForUnityMetaFiles, ICheckChangelogVersionMatchesUnityPackageVersion, ICheckChangelogVersionMatchesGitTagVersion, IPublishGitHubRelease
+class Build : NukeBuild, ICheckForUnityMetaFiles, IUnityPackageVersionMatchesGitTagVersion, IChangelogVersionMatchesGitTagVersion, IPublishGitHubRelease
 {
     public static int Main() => Execute<Build>(x => x.Publish);
 
@@ -34,9 +34,6 @@ class Build : NukeBuild, ICheckForUnityMetaFiles, ICheckChangelogVersionMatchesU
 
     [Solution]
     readonly Solution UnitTestProject;
-
-    [GitRepository]
-    readonly GitRepository GitRepository;
 
     Target Clean => _ => _
         .Executes(() =>
@@ -56,6 +53,7 @@ class Build : NukeBuild, ICheckForUnityMetaFiles, ICheckChangelogVersionMatchesU
 
     Target Compile => _ => _
         .DependsOn(Restore)
+        .DependsOn<ICheckForUnityMetaFiles>()
         .Executes(() =>
         {
             DotNetTasks.DotNetBuild(settings => settings
@@ -81,6 +79,9 @@ class Build : NukeBuild, ICheckForUnityMetaFiles, ICheckChangelogVersionMatchesU
 
     Target Publish => _ => _
         .DependsOn(Test)
-        .DependsOn<ICheckForUnityMetaFiles>()
-        .Triggers<IPublishGitHubRelease>();
+        .Triggers<IPublishGitHubRelease>()
+        .Executes(() =>
+        {
+            Log.Debug("IsServerBuild: {IsServerBuild}", IsServerBuild);
+        });
 }

@@ -1,4 +1,5 @@
 ﻿using Nuke.Common;
+using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Git;
 using Serilog;
 
@@ -9,8 +10,9 @@ interface IPublishGitHubRelease : INukeBuild
 
     Target PublishGitHubRelease => _ => _
         .OnlyWhenStatic(() => GitRepository.CurrentCommitHasVersionTag())
-        .DependsOn<ICheckChangelogVersionMatchesUnityPackageVersion>()
-        .DependsOn<ICheckChangelogVersionMatchesGitTagVersion>()
+        .OnlyWhenStatic(() => IsServerBuild)
+        .DependsOn<IUnityPackageVersionMatchesGitTagVersion>()
+        .DependsOn<IChangelogVersionMatchesGitTagVersion>()
         .Executes(() =>
         {
             Log.Warning("TODO");
