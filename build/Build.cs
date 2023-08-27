@@ -83,6 +83,7 @@ class Build : NukeBuild, ICheckForUnityMetaFiles, IUnityPackageVersionMatchesGit
                 .SetLoggers("trx;logfilename=test-results.trx")
                 .EnableNoRestore()
                 .EnableNoBuild()
+                .AddLoggers("GitHubActions")
             );
         });
 
