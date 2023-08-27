@@ -22,13 +22,21 @@ using static Nuke.Common.IO.PathConstruction;
 [GitHubActions("tests",
     GitHubActionsImage.UbuntuLatest,
     OnPushBranches = new[] { "main" },
+    InvokedTargets = new[] { nameof(Test) },
+    PublishCondition = "always()",
+    EnableGitHubToken = true,
+    JobConcurrencyCancelInProgress = true
+)]
+[GitHubActions("publish",
+    GitHubActionsImage.UbuntuLatest,
     InvokedTargets = new[] { nameof(Publish) },
     PublishCondition = "always()",
-    EnableGitHubToken = true
+    EnableGitHubToken = true,
+    OnPushTags = new[] { "v[0-9]+.[0-9]+.[0-9]+" }
 )]
 class Build : NukeBuild, ICheckForUnityMetaFiles, IUnityPackageVersionMatchesGitTagVersion, IChangelogVersionMatchesGitTagVersion, IPublishGitHubRelease
 {
-    public static int Main() => Execute<Build>(x => x.Publish);
+    public static int Main() => Execute<Build>(x => x.Test);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;

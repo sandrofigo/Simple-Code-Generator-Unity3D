@@ -19,10 +19,10 @@ interface IPublishGitHubRelease : INukeBuild
     [Parameter] AbsolutePath ChangelogFile => TryGetValue(() => ChangelogFile);
 
     Target PublishGitHubRelease => _ => _
-        // .OnlyWhenStatic(() => GitRepository.CurrentCommitHasVersionTag())
-        // .OnlyWhenStatic(() => IsServerBuild)
-        // .DependsOn<IUnityPackageVersionMatchesGitTagVersion>()
-        // .DependsOn<IChangelogVersionMatchesGitTagVersion>()
+        .OnlyWhenStatic(() => GitRepository.CurrentCommitHasVersionTag())
+        .OnlyWhenStatic(() => IsServerBuild)
+        .DependsOn<IUnityPackageVersionMatchesGitTagVersion>()
+        .DependsOn<IChangelogVersionMatchesGitTagVersion>()
         .Executes(async () =>
         {
             Assert.True(ChangelogFile != null, "No path has been provided!");
@@ -35,7 +35,7 @@ interface IPublishGitHubRelease : INukeBuild
 
             SemanticVersion version = GitRepository.GetLatestVersionTagOnCurrentCommit();
 
-            var release = new NewRelease($"v{version}")
+            var releaseDraft = new NewRelease($"v{version}")
             {
                 Draft = true,
                 Name = $"v{version}",
@@ -51,8 +51,8 @@ interface IPublishGitHubRelease : INukeBuild
 
             Log.Information("Creating GitHub release...");
 
-            Release createdRelease = await GitHubTasks.GitHubClient.Repository.Release.Create(owner, name, release);
+            Release release = await GitHubTasks.GitHubClient.Repository.Release.Create(owner, name, releaseDraft);
 
-            // await GitHubTasks.GitHubClient.Repository.Release.Edit(owner, name, createdRelease.Id, new ReleaseUpdate { Draft = false });
+            await GitHubTasks.GitHubClient.Repository.Release.Edit(owner, name, release.Id, new ReleaseUpdate { Draft = false });
         });
 }
