@@ -36,6 +36,8 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
       - name: 'Run: Publish'
         run: ./build.cmd Publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: 'Publish: TestResults'
         uses: actions/upload-artifact@v3
         if: always()

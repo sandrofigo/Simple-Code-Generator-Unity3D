@@ -6,6 +6,7 @@ using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Serilog;
 
+[ParameterPrefix(nameof(UnityPackageVersionMatchesGitTagVersion))]
 interface IUnityPackageVersionMatchesGitTagVersion : INukeBuild
 {
     [GitRepository] private GitRepository GitRepository => TryGetValue(() => GitRepository);

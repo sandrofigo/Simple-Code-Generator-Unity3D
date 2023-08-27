@@ -6,7 +6,7 @@
     "build": {
       "type": "object",
       "properties": {
-        "ChangelogFile": {
+        "ChangelogVersionMatchesGitTagVersionChangelogFile": {
           "type": "string"
         },
         "CheckForUnityMetaFilesExcludeDirectories": {
@@ -77,6 +77,9 @@
             "type": "string"
           }
         },
+        "PublishGitHubReleaseChangelogFile": {
+          "type": "string"
+        },
         "Root": {
           "type": "string",
           "description": "Root directory during build execution"
@@ -121,7 +124,7 @@
           "type": "string",
           "description": "Path to a solution file that is automatically loaded"
         },
-        "UnityPackageFile": {
+        "UnityPackageVersionMatchesGitTagVersionUnityPackageFile": {
           "type": "string"
         },
         "Verbosity": {

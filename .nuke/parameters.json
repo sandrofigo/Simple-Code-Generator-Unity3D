@@ -4,6 +4,7 @@
   "CheckForUnityMetaFilesIncludeDirectories": [
     "./src/Assets/SimpleCodeGenerator"
   ],
-  "ChangelogFile": "./CHANGELOG.md",
-  "UnityPackageFile": "./src/Assets/SimpleCodeGenerator/package.json"
+  "ChangelogVersionMatchesGitTagVersionChangelogFile": "./CHANGELOG.md",
+  "PublishGitHubReleaseChangelogFile": "./CHANGELOG.md",
+  "UnityPackageVersionMatchesGitTagVersionUnityPackageFile": "./src/Assets/SimpleCodeGenerator/package.json"
 }

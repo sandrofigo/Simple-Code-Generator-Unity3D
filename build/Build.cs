@@ -23,7 +23,8 @@ using static Nuke.Common.IO.PathConstruction;
     GitHubActionsImage.UbuntuLatest,
     OnPushBranches = new[] { "main" },
     InvokedTargets = new[] { nameof(Publish) },
-    PublishCondition = "always()"
+    PublishCondition = "always()",
+    EnableGitHubToken = true
 )]
 class Build : NukeBuild, ICheckForUnityMetaFiles, IUnityPackageVersionMatchesGitTagVersion, IChangelogVersionMatchesGitTagVersion, IPublishGitHubRelease
 {
@@ -79,9 +80,5 @@ class Build : NukeBuild, ICheckForUnityMetaFiles, IUnityPackageVersionMatchesGit
 
     Target Publish => _ => _
         .DependsOn(Test)
-        .Triggers<IPublishGitHubRelease>()
-        .Executes(() =>
-        {
-            Log.Debug("IsServerBuild: {IsServerBuild}", IsServerBuild);
-        });
+        .Triggers<IPublishGitHubRelease>();
 }
