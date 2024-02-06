@@ -6,14 +6,18 @@ namespace SimpleCodeGenerator.Editor
     {
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         {
-            var allChangedAssets = importedAssets.Concat(deletedAssets).Concat(movedAssets).Concat(movedAssets);
+            string[] allChangedAssets = importedAssets.Concat(deletedAssets).Concat(movedAssets).Concat(movedAssets).ToArray();
 
-            bool relevantFilesChanged = allChangedAssets.Any(s =>
-                s.Contains(".cs") ||
-                s.Contains(".txt") ||
-                s.Contains(".json"));
+            bool relevantFilesHaveChanged = allChangedAssets.Any(s =>
+                s.EndsWith(".cs") ||
+                s.EndsWith(".txt") ||
+                s.EndsWith(".json"));
 
-            if (relevantFilesChanged)
+            bool onlyGeneratedFilesHaveChanged = allChangedAssets.All(s =>
+                s.Contains(".g.") ||
+                s.Contains(".generated."));
+
+            if (relevantFilesHaveChanged && !onlyGeneratedFilesHaveChanged)
                 CodeGenerator.GenerateAll();
         }
     }
