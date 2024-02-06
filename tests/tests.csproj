@@ -30,8 +30,11 @@
   </ItemGroup>
   
   <ItemGroup>
+    <Compile Include="..\src\Assets\SimpleCodeGenerator\Core\*.cs">
+      <Link>simplecodegenerator.core\.cs</Link>
+    </Compile>
     <Compile Include="..\src\Assets\SimpleCodeGenerator\Editor\*.cs">
-      <Link>Simple Code Generator\.cs</Link>
+      <Link>simplecodegenerator.editor\.cs</Link>
     </Compile>
   </ItemGroup>
   

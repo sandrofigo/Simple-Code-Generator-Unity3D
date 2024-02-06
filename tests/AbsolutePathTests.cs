@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using SimpleCodeGenerator.Editor;
+using SimpleCodeGenerator.Core;
 
 namespace tests;
 
