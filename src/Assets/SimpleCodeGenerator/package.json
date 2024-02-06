@@ -1,6 +1,6 @@
 {
   "name": "com.sandrofigo.simplecodegenerator",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "displayName": "Simple Code Generator",
   "description": "A library for generating source code from templates in Unity",
   "documentationUrl": "https://github.com/sandrofigo/Simple-Code-Generator-Unity3D",
