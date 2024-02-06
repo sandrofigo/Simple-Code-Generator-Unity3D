@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Automatic code generation is not run when only generated files have changed
+- Changed automatic code generation to not run when only generated files have changed (containing `.g.` or `.generated.` in the file path)
+- Moved core classes to separate assembly to be able to reference them in code outside of the editor
 
 ## [1.0.0] - 2023-08-27
 
