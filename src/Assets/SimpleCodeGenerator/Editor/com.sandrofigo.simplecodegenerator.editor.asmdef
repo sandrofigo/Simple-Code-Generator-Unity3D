@@ -1,7 +1,9 @@
 {
-    "name": "com.sandrofigo.simplecodegenerator",
+    "name": "com.sandrofigo.simplecodegenerator.editor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:8efaf92a55542334e8cb3c2afdde1892"
+    ],
     "includePlatforms": [
         "Editor"
     ],
