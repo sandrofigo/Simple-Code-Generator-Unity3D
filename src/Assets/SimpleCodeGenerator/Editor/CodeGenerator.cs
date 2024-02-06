@@ -51,8 +51,8 @@ namespace SimpleCodeGenerator.Editor
 
             for (int i = 0; i < valueArray.Length; i++)
             {
-                valueArray[i].Key = SanitizeStringForVariableName(valueArray[i].Key);
-                valueArray[i].Summary = EscapeSummaryText(valueArray[i].Summary);
+                valueArray[i].Key = TextProcessing.SanitizeStringForVariableName(valueArray[i].Key);
+                valueArray[i].Summary = TextProcessing.EscapeSummaryText(valueArray[i].Summary);
             }
 
             var template = Template.FindBuiltInTemplate("StringDictionary");
@@ -81,7 +81,7 @@ namespace SimpleCodeGenerator.Editor
 
             for (int i = 0; i < valueArray.Length; i++)
             {
-                valueArray[i] = SanitizeStringForVariableName(valueArray[i]);
+                valueArray[i] = TextProcessing.SanitizeStringForVariableName(valueArray[i]);
             }
 
             var template = Template.FindBuiltInTemplate("Enum");
@@ -148,26 +148,6 @@ namespace SimpleCodeGenerator.Editor
         private static string GetRelativePathToBuiltInTemplate(string templateName)
         {
             return Template.GetAbsolutePathToBuiltInTemplate(templateName) - Application.dataPath;
-        }
-
-        public static string SanitizeStringForVariableName(string input)
-        {
-            if (string.IsNullOrWhiteSpace(input))
-                return "";
-
-            string variableName = Regex.Replace(input, "[^0-9A-Za-z_]", string.Empty);
-
-            if (int.TryParse(variableName[0].ToString(), out int _))
-            {
-                variableName = $"_{variableName}";
-            }
-
-            return variableName;
-        }
-
-        public static string EscapeSummaryText(string text)
-        {
-            return $"<![CDATA[{text}]]>";
         }
     }
 }
