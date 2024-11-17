@@ -85,19 +85,21 @@ public class TemplateTests
         settings.UseDirectory("Verify");
         return Verify(result, settings);
     }
-    
+
     [Fact]
     public Task Render_TemplateWithImportedTemplate_TemplateIsRenderedCorrectly()
     {
-        Template rootTemplate = Template.ParseFromFile(TemplateFileImport);
+        Template template = Template.ParseFromFile(TemplateFileImport);
+        template.Import("Template_To_Import", Template.ParseFromFile(TemplateFileImportPartial));
+        template.Import("This_Can_Be_Any_Key", Template.Parse("1234567890"));
 
-        var rootData = new
+        var data = new
         {
             Template = "Import",
             SomeNumbers = new[] { 1, 2, 3, 4, 5 }
         };
 
-        string result = rootTemplate.Render(rootData);
+        string result = template.Render(data);
 
         var settings = new VerifySettings();
         settings.UseDirectory("Verify");

@@ -1,8 +1,8 @@
-{{ import "Test_Template_1" }}
+{{ import "Template_To_Import" }}
 
 // Test Template {{ Template }} with imported template
 
-{{ import "Test_Template_1" }}
+{{ import "Template_To_Import" }}
 {{ import "This_Can_Be_Any_Key" }}
 
 {{ for number in SomeNumbers }}
