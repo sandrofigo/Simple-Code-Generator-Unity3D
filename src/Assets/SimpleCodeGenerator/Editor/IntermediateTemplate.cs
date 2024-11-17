@@ -18,6 +18,18 @@ namespace SimpleCodeGenerator.Editor
             content = new List<string>(template);
         }
 
+        public IntermediateTemplate RenderImports()
+        {
+            var result = new IntermediateTemplate(content, data);
+
+            for (int i = 0; i < result.content.Count; i++)
+            {
+                result.content[i] = InsertImportedTemplates(result.content[i]);
+            }
+
+            return result;
+        }
+
         public IntermediateTemplate RenderStandaloneValues()
         {
             var result = new IntermediateTemplate(content, data);
@@ -80,6 +92,23 @@ namespace SimpleCodeGenerator.Editor
             }
 
             return result;
+        }
+
+        private static string InsertImportedTemplates(string input)
+        {
+            while (true)
+            {
+                Match importMatch = Regex.Match(input, @"\{\{\s*import\s+(?<templateName>\S+)\s*\}\}");
+
+                if (!importMatch.Success)
+                    break;
+
+                string templateName = importMatch.Groups["templateName"].Value;
+
+                // TODO
+            }
+
+            return input;
         }
 
         private static string InsertValuesFromObject(string input, object objectToInsert, string propertyRootPath = "")

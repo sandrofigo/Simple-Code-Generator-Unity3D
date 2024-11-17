@@ -1,0 +1,7 @@
+// This is text from a partial template
+// And this is more text from a partial template with a variable: {{ Variable }}
+
+// Let's also add a list of strings to the template
+{{ for item in Strings }}
+// {{ item }}
+{{ end }}

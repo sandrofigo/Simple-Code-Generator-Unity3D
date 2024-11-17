@@ -1,0 +1,24 @@
+﻿// This is text from a partial template
+// And this is more text from a partial template with a variable: this is a string
+
+// Let's also add a list of strings to the template
+// hello
+// world
+// !
+
+// Test Template Import with imported template
+
+// This is text from a partial template
+// And this is more text from a partial template with a variable: this is a string
+
+// Let's also add a list of strings to the template
+// hello
+// world
+// !
+1234567890
+
+// 1
+// 2
+// 3
+// 4
+// 5

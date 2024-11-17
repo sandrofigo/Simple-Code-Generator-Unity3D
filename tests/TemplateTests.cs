@@ -7,6 +7,8 @@ namespace tests;
 public class TemplateTests
 {
     private const string TemplateFile1 = "Templates/Test_Template_1.txt";
+    private const string TemplateFileImport = "Templates/Test_Template_Import.txt";
+    private const string TemplateFileImportPartial = "Templates/Test_Template_Import_Partial.txt";
     private const string StringDictionaryTemplateFile = "Templates/StringDictionary.txt";
     private const string EnumTemplateFile = "Templates/Enum.txt";
 
@@ -75,6 +77,26 @@ public class TemplateTests
                 new("Potato", "Vegetable", "A potato is a vegetable.")
             },
             Count = 3
+        };
+
+        string result = template.Render(data);
+
+        var settings = new VerifySettings();
+        settings.UseDirectory("Verify");
+        return Verify(result, settings);
+    }
+
+    [Fact]
+    public Task Render_TemplateWithImportedTemplate_TemplateIsRenderedCorrectly()
+    {
+        Template template = Template.ParseFromFile(TemplateFileImport);
+        template.Import("Template_To_Import", Template.ParseFromFile(TemplateFileImportPartial));
+        template.Import("This_Can_Be_Any_Key", Template.Parse("1234567890"));
+
+        var data = new
+        {
+            Template = "Import",
+            SomeNumbers = new[] { 1, 2, 3, 4, 5 }
         };
 
         string result = template.Render(data);
