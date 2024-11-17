@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added import keyword to import templates into other templates
+- Added 'Template.Parse()' method
 
 ### Changed
 
