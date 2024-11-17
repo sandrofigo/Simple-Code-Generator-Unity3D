@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added import keyword to import templates into other templates
 - Added 'Template.Parse()' method
+- Added 'Template.ParseFromLines()' method
 
 ### Changed
 
