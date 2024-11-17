@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Log error instead of warning when a template file is not found
+
 ## [2.0.0] - 2024-02-06
 
 ### Changed
@@ -15,5 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved core classes to separate assembly to be able to reference them in code outside of the editor
 
 ## [1.0.0] - 2023-08-27
+
+### Added
 
 - Initial release
