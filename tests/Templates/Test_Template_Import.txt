@@ -1,0 +1,10 @@
+{{ import "Test_Template_1" }}
+
+// Test Template {{ Template }} with imported template
+
+{{ import "Test_Template_1" }}
+{{ import "This_Can_Be_Any_Key" }}
+
+{{ for number in SomeNumbers }}
+// {{ number }}
+{{ end }}

@@ -7,6 +7,8 @@ namespace tests;
 public class TemplateTests
 {
     private const string TemplateFile1 = "Templates/Test_Template_1.txt";
+    private const string TemplateFileImport = "Templates/Test_Template_Import.txt";
+    private const string TemplateFileImportPartial = "Templates/Test_Template_Import_Partial.txt";
     private const string StringDictionaryTemplateFile = "Templates/StringDictionary.txt";
     private const string EnumTemplateFile = "Templates/Enum.txt";
 
@@ -78,6 +80,24 @@ public class TemplateTests
         };
 
         string result = template.Render(data);
+
+        var settings = new VerifySettings();
+        settings.UseDirectory("Verify");
+        return Verify(result, settings);
+    }
+    
+    [Fact]
+    public Task Render_TemplateWithImportedTemplate_TemplateIsRenderedCorrectly()
+    {
+        Template rootTemplate = Template.ParseFromFile(TemplateFileImport);
+
+        var rootData = new
+        {
+            Template = "Import",
+            SomeNumbers = new[] { 1, 2, 3, 4, 5 }
+        };
+
+        string result = rootTemplate.Render(rootData);
 
         var settings = new VerifySettings();
         settings.UseDirectory("Verify");
