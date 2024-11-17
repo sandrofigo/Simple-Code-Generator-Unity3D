@@ -110,7 +110,7 @@ namespace SimpleCodeGenerator.Editor
             }
             else
             {
-                Debug.LogWarning($"Could not find template '{templateAssetPath}' in assets.");
+                Debug.LogError($"Could not find template '{templateAssetPath}' in assets.");
             }
         }
 
