@@ -40,7 +40,7 @@ interface IPublishGitHubRelease : INukeBuild
 
                 foreach (string s in entry.Value)
                 {
-                    changelogBody.AppendLine(s);
+                    changelogBody.AppendLine($"- {s}");
                 }
 
                 changelogBody.AppendLine();
