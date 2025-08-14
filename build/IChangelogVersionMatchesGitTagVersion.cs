@@ -1,6 +1,6 @@
-﻿using NuGet.Versioning;
+﻿using System.Linq;
+using NuGet.Versioning;
 using Nuke.Common;
-using Nuke.Common.ChangeLog;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Serilog;
@@ -28,6 +28,6 @@ interface IChangelogVersionMatchesGitTagVersion : INukeBuild
     {
         Assert.True(pathToChangelogFile != null, "No path has been provided!");
 
-        return ChangelogTasks.ReadChangelog(pathToChangelogFile).GetLatestReleaseNotes()?.Version;
+        return SemanticVersion.Parse(Changelog.FromFile(pathToChangelogFile).Sections.First().Version);
     }
 }
