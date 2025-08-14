@@ -1,9 +1,6 @@
 {
   "$schema": "./build.schema.json",
   "UnitTestProject": "./tests/tests.csproj",
-  "CheckForUnityMetaFilesIncludeDirectories": [
-    "./src/Assets/SimpleCodeGenerator"
-  ],
   "ChangelogVersionMatchesGitTagVersionChangelogFile": "./CHANGELOG.md",
   "PublishGitHubReleaseChangelogFile": "./CHANGELOG.md",
   "UnityPackageVersionMatchesGitTagVersionUnityPackageFile": "./src/Assets/SimpleCodeGenerator/package.json"
