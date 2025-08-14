@@ -29,7 +29,7 @@ jobs:
       group: ${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.run_id }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: 'Cache: .nuke/temp, ~/.nuget/packages'
         uses: actions/cache@v3
         with:
@@ -42,7 +42,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: 'Publish: TestResults'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: TestResults
