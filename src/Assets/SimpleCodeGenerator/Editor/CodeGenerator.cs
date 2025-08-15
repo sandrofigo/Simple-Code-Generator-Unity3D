@@ -20,7 +20,8 @@ namespace SimpleCodeGenerator.Editor
             stopwatch.Start();
 #endif
 
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(a => !a.FullName.StartsWith("JetBrains.Rider.Unity.Editor.Plugin.Net46.Repacked"));
 
             var methods = assemblies
                 .SelectMany(a => a.GetTypes())
